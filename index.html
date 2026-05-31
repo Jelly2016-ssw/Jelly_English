@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="젤리영어">
+<meta name="theme-color" content="#4361ee">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>🍬 젤리의 리스닝·스피킹 연습</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f0f9ff;--pr:#4361ee;--ac:#f72585;--gn:#06d6a0;--tx:#1a1a2e;--sb:#6b7280;--bd:#e5e7eb;--sh:0 4px 20px rgba(67,97,238,.10);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:"Nunito","Noto Sans KR",sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;}
+header{background:linear-gradient(135deg,#06d6a0,#4361ee);color:#fff;padding:28px 20px 22px;text-align:center;}
+header h1{font-size:1.8rem;font-weight:900;}
+header p{font-size:.9rem;opacity:.85;margin-top:5px;}
+.tabs{display:flex;background:#fff;border-bottom:2px solid var(--bd);overflow-x:auto;}
+.tab{flex:1;min-width:90px;padding:12px 8px;text-align:center;font-size:.82rem;font-weight:700;cursor:pointer;border:none;background:none;color:var(--sb);white-space:nowrap;font-family:inherit;transition:all .2s;}
+.tab.active{color:var(--pr);border-bottom:3px solid var(--pr);margin-bottom:-2px;}
+.sec{display:none;padding:20px 16px 40px;max-width:960px;margin:0 auto;}
+.sec.active{display:block;}
+.dbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
+.dbar label{font-weight:700;font-size:.9rem;}
+.dsel{border:2px solid var(--bd);border-radius:999px;padding:6px 16px;font-size:.9rem;font-family:inherit;outline:none;cursor:pointer;background:#fff;color:var(--tx);}
+.lvbadge{border-radius:999px;padding:4px 12px;font-size:.75rem;font-weight:700;color:#fff;}
+.tip{background:#fef9c3;border-radius:12px;padding:12px 16px;font-size:.82rem;color:#78350f;margin-bottom:16px;line-height:1.6;}
+.tip strong{font-weight:800;}
+.box{background:#fff;border-radius:20px;padding:20px;box-shadow:var(--sh);margin-bottom:16px;}
+.box h3{font-size:1rem;font-weight:800;margin-bottom:12px;color:var(--pr);}
+.pw{background:#e5e7eb;border-radius:999px;height:8px;margin:8px 0;}
+.pb{background:linear-gradient(90deg,var(--gn),var(--pr));border-radius:999px;height:8px;transition:width .4s;}
+.wl{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;}
+.word-card{background:#fff;border-radius:14px;padding:12px;box-shadow:0 2px 10px rgba(0,0,0,.06);border-left:4px solid var(--pr);display:flex;flex-direction:column;gap:4px;transition:transform .15s;}
+.word-card:hover{transform:translateY(-2px);}
+.wnum{font-size:.68rem;color:var(--sb);font-weight:700;}
+.wen{font-size:1.05rem;font-weight:900;color:var(--pr);}
+.wko{font-size:.85rem;color:var(--tx);font-family:"Noto Sans KR",sans-serif;}
+.wpos{font-size:.68rem;color:var(--ac);font-weight:700;}
+.btns{display:flex;gap:5px;margin-top:4px;flex-wrap:wrap;}
+.btn{border:none;border-radius:999px;padding:5px 12px;font-size:.78rem;font-weight:700;cursor:pointer;transition:opacity .2s;font-family:inherit;}
+.btn:hover{opacity:.82;}
+.btn-l{background:#e0f2fe;color:#0369a1;}
+.btn-s{background:#fef9c3;color:#854d0e;}
+.btn-m{background:#fce7f3;color:#9d174d;}
+.btn-ok{background:#dcfce7;color:#166534;}
+.btn-pr{background:var(--pr);color:#fff;padding:9px 20px;font-size:.9rem;}
+.mic-on{background:#f72585!important;color:#fff!important;animation:pulse .8s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
+.stitle{font-size:1rem;font-weight:800;color:var(--tx);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.shd-s{font-size:1.2rem;font-weight:900;color:var(--pr);text-align:center;padding:16px;background:#f0f9ff;border-radius:12px;margin-bottom:8px;}
+.shd-k{text-align:center;color:var(--sb);font-size:.88rem;margin-bottom:12px;font-family:"Noto Sans KR",sans-serif;}
+.shd-c{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+.qz-q{font-size:1.4rem;font-weight:900;color:var(--pr);text-align:center;margin:10px 0 6px;}
+.qz-sub{text-align:center;color:var(--sb);font-size:.85rem;margin-bottom:14px;font-family:"Noto Sans KR",sans-serif;}
+.qz-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.qz-btn{border:2px solid var(--bd);border-radius:12px;padding:12px;font-size:.9rem;font-weight:700;cursor:pointer;background:#fff;font-family:"Noto Sans KR",sans-serif;transition:all .2s;text-align:center;}
+.qz-btn:hover{border-color:var(--pr);}
+.qok{border-color:#06d6a0!important;background:#dcfce7!important;color:#166534!important;}
+.qng{border-color:#f72585!important;background:#fce7f3!important;color:#9d174d!important;}
+.qz-res{text-align:center;font-size:1rem;font-weight:800;margin:10px 0;min-height:24px;}
+.scrow{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:14px;}
+.sccard{background:#fff;border-radius:14px;padding:10px 18px;text-align:center;box-shadow:var(--sh);min-width:80px;}
+.scnum{font-size:1.4rem;font-weight:900;color:var(--pr);}
+.sclbl{font-size:.72rem;color:var(--sb);}
+.sarea{background:#f8fafc;border-radius:12px;padding:14px;min-height:44px;font-size:1rem;font-weight:700;color:var(--pr);border:2px dashed var(--bd);margin-bottom:10px;}
+.vc{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.08);transition:transform .15s;cursor:pointer;}
+.vc:hover{transform:translateY(-3px);}
+.vt{width:100%;aspect-ratio:16/9;position:relative;background:#e5e7eb;overflow:hidden;}
+.vt-ov{position:absolute;inset:0;background:rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;font-size:2.5rem;opacity:0;transition:opacity .2s;}
+.vc:hover .vt-ov{opacity:1;}
+.vi{padding:10px 12px 12px;}
+.vi-title{font-size:.88rem;font-weight:800;color:var(--tx);margin-bottom:6px;line-height:1.35;}
+.vi-meta{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
+.vbadge{border-radius:999px;padding:2px 9px;font-size:.68rem;font-weight:700;color:#fff;}
+.vtime{font-size:.72rem;color:var(--sb);}
+.wk{background:#fee2e2;color:#991b1b;border-radius:999px;padding:2px 8px;font-size:.68rem;font-weight:700;}
+.st{background:#dcfce7;color:#166534;border-radius:999px;padding:2px 8px;font-size:.68rem;font-weight:700;}
+footer{text-align:center;padding:20px;color:var(--sb);font-size:.78rem;}
+</style>
+</head>
+<body>
+<header>
+  <h1>🍬 젤리의 리스닝 · 스피킹 연습</h1>
+  <p>단어장1 연계 | 듣기 · 따라하기 · 퀴즈 · 문장 만들기</p>
+</header>
+<div class="tabs">
+  <button class="tab active" onclick="go(0)">🎧 리스닝</button>
+  <button class="tab" onclick="go(1)">🗣 쉐도잉</button>
+  <button class="tab" onclick="go(2)">❓ 퀴즈</button>
+  <button class="tab" onclick="go(3)">✏️ 문장 만들기</button>
+  <button class="tab" onclick="go(4)">📺 영상 보기</button>
+</div>
+
+<!-- 리스닝 -->
+<div id="s0" class="sec active">
+  <div class="dbar"><label>📅 DAY</label><select id="d0" class="dsel" onchange="iListen()"></select><span id="lv0" class="lvbadge" style="background:#06d6a0"></span></div>
+  <div class="tip"><strong>💡 리스닝 3단계 :</strong> ① 🔊 원어민 듣기 → ② 🐢 천천히 듣기 → ③ 🎤 따라 말하기!</div>
+  <div class="pw"><div class="pb" id="pb0" style="width:0%"></div></div>
+  <p id="pt0" style="font-size:.75rem;color:var(--sb);text-align:right;margin-bottom:10px"></p>
+  <div class="wl" id="wl0"></div>
+</div>
+
+<!-- 쉐도잉 -->
+<div id="s1" class="sec">
+  <div class="dbar"><label>📅 DAY</label><select id="d1" class="dsel" onchange="iShadow()"></select><span id="lv1" class="lvbadge" style="background:#4361ee"></span></div>
+  <div class="tip"><strong>💡 쉐도잉이란?</strong> 원어민 발음을 듣고 <strong>0.5초 뒤에 바로 따라 말하는</strong> 훈련입니다.</div>
+  <div class="box">
+    <h3>🔊 오늘의 쉐도잉 문장</h3>
+    <div class="shd-s" id="ss">—</div>
+    <div class="shd-k" id="sk">—</div>
+    <div class="pw"><div class="pb" id="pb1" style="width:0%"></div></div>
+    <p id="pt1" style="font-size:.75rem;color:var(--sb);text-align:center;margin-bottom:10px"></p>
+    <div class="shd-c">
+      <button class="btn btn-l" style="padding:9px 20px;font-size:.9rem;" onclick="tts(document.getElementById('ss').textContent,1)">🔊 듣기</button>
+      <button class="btn btn-s" style="padding:9px 20px;font-size:.9rem;" onclick="tts(document.getElementById('ss').textContent,.5)">🐢 천천히</button>
+      <button class="btn btn-m" style="padding:9px 20px;font-size:.9rem;" id="sb" onclick="mic('sb','shd')">🎤 따라 말하기</button>
+      <button class="btn btn-ok" style="padding:9px 20px;font-size:.9rem;" onclick="nxShd()">✅ 다음 →</button>
+    </div>
+    <!-- 채점 결과 -->
+    <div id="shdResult" style="display:none;margin-top:16px;border-radius:14px;padding:14px 16px;background:#f8fafc;border:2px solid #e5e7eb;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px;">
+        <span style="font-weight:800;font-size:.9rem;color:#374151;">📊 발음 채점 결과</span>
+        <span id="shdScore" style="font-size:1.3rem;font-weight:900;"></span>
+      </div>
+      <div style="margin-bottom:8px;">
+        <div style="font-size:.75rem;color:#6b7280;margin-bottom:4px;">정답 문장</div>
+        <div id="shdCorrect" style="font-size:.95rem;font-weight:700;color:#4361ee;line-height:1.6;"></div>
+      </div>
+      <div style="margin-bottom:10px;">
+        <div style="font-size:.75rem;color:#6b7280;margin-bottom:4px;">젤리가 말한 내용</div>
+        <div id="shdSaid" style="font-size:.95rem;font-weight:700;line-height:1.6;font-family:'Noto Sans KR',sans-serif;"></div>
+      </div>
+      <div class="pw" style="margin-bottom:6px;"><div class="pb" id="shdPb" style="width:0%;transition:width .6s;"></div></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
+        <button class="btn btn-m" style="font-size:.82rem;" id="retryBtn" onclick="mic('sb','shd')">🔄 다시 말하기</button>
+        <button class="btn btn-ok" style="font-size:.82rem;" onclick="nxShd()">✅ 다음 단어 →</button>
+      </div>
+    </div>
+  </div>
+  <div class="stitle"><span>📋</span> DAY 단어 목록</div>
+  <div class="wl" id="wl1"></div>
+</div>
+
+<!-- 퀴즈 -->
+<div id="s2" class="sec">
+  <div class="dbar"><label>📅 DAY</label><select id="d2" class="dsel" onchange="iQuiz()"></select><span id="lv2" class="lvbadge" style="background:#f72585"></span>
+    <select id="qmd" class="dsel" onchange="iQuiz()"><option value="ko">영어→한국어</option><option value="en">한국어→영어</option><option value="ls">듣고 맞추기</option></select>
+  </div>
+  <div id="wkAlert" style="display:none;background:#fee2e2;border-radius:12px;padding:10px 14px;margin-bottom:12px;font-size:.82rem;color:#991b1b;font-family:'Noto Sans KR',sans-serif;"></div>
+  <div class="scrow">
+    <div class="sccard"><div class="scnum" id="qs0">0</div><div class="sclbl">맞은 수</div></div>
+    <div class="sccard"><div class="scnum" id="qs1">0</div><div class="sclbl">총 문제</div></div>
+    <div class="sccard"><div class="scnum" id="qs2">0</div><div class="sclbl">연속 정답</div></div>
+  </div>
+  <div class="box">
+    <div class="pw"><div class="pb" id="pb2" style="width:0%"></div></div>
+    <div class="qz-q" id="qq">—</div>
+    <div class="qz-sub" id="qsub"></div>
+    <div class="qz-grid" id="qc"></div>
+    <div class="qz-res" id="qr"></div>
+    <div style="display:flex;gap:8px;justify-content:center;margin-top:10px;flex-wrap:wrap;">
+      <button class="btn btn-l" onclick="if(qWords[qI])tts(qWords[qI].en,1)">🔊 발음 듣기</button>
+      <button class="btn btn-ok" onclick="nxQ()">다음 문제 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- 문장 만들기 -->
+<div id="s3" class="sec">
+  <div class="dbar"><label>📅 DAY</label><select id="d3" class="dsel" onchange="iSent()"></select><span id="lv3" class="lvbadge" style="background:#f77f00"></span></div>
+  <div class="tip"><strong>💡 문장 만들기 :</strong> 추천 문장을 보고 → 🔊 들어보고 → 🎤 직접 말해보세요!</div>
+  <div class="box">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+      <div><span id="sw" style="font-size:1.1rem;font-weight:900;color:var(--pr);"></span><span id="sm" style="font-size:.9rem;color:var(--sb);margin-left:8px;font-family:'Noto Sans KR',sans-serif;"></span></div>
+      <div style="display:flex;gap:6px;">
+        <button class="btn btn-l" onclick="if(sW)tts(sW.en,1)">🔊 발음</button>
+        <button class="btn btn-s" onclick="if(sW)tts(sW.en,.5)">🐢 천천히</button>
+      </div>
+    </div>
+    <div class="pw" style="margin-bottom:6px;"><div class="pb" id="pb3" style="width:0%"></div></div>
+    <p id="pt3" style="font-size:.72rem;color:var(--sb);text-align:right;margin-bottom:12px;"></p>
+    <p style="font-size:.82rem;font-weight:800;color:var(--sb);margin-bottom:8px;">📋 이 단어로 만들 수 있는 문장</p>
+    <div id="srec" style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;"></div>
+    <div style="border-top:1px solid var(--bd);padding-top:12px;">
+      <p style="font-size:.82rem;font-weight:800;color:var(--sb);margin-bottom:8px;">✏️ 내가 직접 문장 만들기</p>
+      <div class="sarea" id="sar">여기에 문장을 입력하세요...</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn btn-l" onclick="tts(sBlt||(sW&&sW.en)||'',1)">🔊 내 문장 듣기</button>
+        <button class="btn btn-m" id="spk" onclick="mic('spk','snt')">🎤 말해보기</button>
+        <button class="btn" style="background:#f3f4f6;color:#374151" onclick="sBlt='';document.getElementById('sar').textContent='여기에 문장을 입력하세요...'">🗑 지우기</button>
+        <button class="btn btn-ok" onclick="nxSnt()" style="margin-left:auto;">다음 단어 →</button>
+      </div>
+    </div>
+  </div>
+  <div class="stitle"><span>📋</span> DAY 단어 목록</div>
+  <div class="wl" id="wl3"></div>
+</div>
+
+<!-- 영상 보기 -->
+<div id="s4" class="sec">
+  <div class="dbar"><label>📅 DAY</label><select id="d4" class="dsel" onchange="iVid()"></select><span id="lv4" class="lvbadge" style="background:#06d6a0"></span></div>
+  <div class="tip"><strong>💡 오늘의 영상 루틴 :</strong> DAY 선택 → 오늘 배운 단어와 연관된 영상 시청 → 쉐도잉 탭에서 따라 말하기! 🎯</div>
+  <div class="box" style="padding:12px 16px;margin-bottom:12px;">
+    <p style="font-size:.82rem;font-weight:800;color:var(--sb);margin-bottom:8px;">📋 오늘 학습 단어</p>
+    <div id="vwds" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+  </div>
+  <div class="stitle"><span>🎬</span> <span id="vtit">DAY 1 추천 영상</span></div>
+  <div id="vgrd" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-bottom:20px;"></div>
+  <div class="box" id="vplr" style="display:none;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+      <h3 id="vptit" style="font-size:.9rem;flex:1;margin-right:10px;line-height:1.4;"></h3>
+      <button class="btn" style="background:#f3f4f6;color:#374151;font-size:.8rem;" onclick="document.getElementById('vplr').style.display='none'">✕</button>
+    </div>
+    <div style="position:relative;border-radius:12px;overflow:hidden;background:#111;cursor:pointer;" onclick="if(curVid)window.open('https://www.youtube.com/watch?v='+curVid,'_blank')">
+      <img id="vpimg" src="" alt="" style="width:100%;display:block;opacity:.85;">
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;">
+        <div style="width:56px;height:56px;background:#ff0000;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.6rem;">▶</div>
+        <span style="background:rgba(0,0,0,.65);color:#fff;border-radius:999px;padding:5px 16px;font-size:.82rem;font-weight:700;">YouTube에서 열기</span>
+      </div>
+    </div>
+    <div style="margin-top:10px;">
+      <button class="btn" style="background:#ff0000;color:#fff;padding:9px 20px;font-size:.9rem;" onclick="if(curVid)window.open('https://www.youtube.com/watch?v='+curVid,'_blank')">▶ YouTube에서 보기</button>
+    </div>
+  </div>
+</div>
+
+<footer>🍬 단어장1 연계 리스닝·스피킹 | 수성쌤 · 목동쌤 · 대치쌤 | 젤리 파이팅! 💪</footer>
+<script>
+const RAW = [
+["head","머리","n"],["eye","눈","n"],["ear","귀","n"],["nose","코","n"],["mouth","입","n"],["hand","손","n"],["foot","발","n"],["leg","다리","n"],["arm","팔","n"],["finger","손가락","n"],
+["face","얼굴","n"],["hair","머리카락","n"],["tooth","이","n"],["lip","입술","n"],["neck","목","n"],["shoulder","어깨","n"],["back","등","n"],["chest","가슴","n"],["stomach","배","n"],["knee","무릎","n"],
+["family","가족","n"],["father","아버지","n"],["mother","어머니","n"],["brother","남자 형제","n"],["sister","여자 형제","n"],["grandfather","할아버지","n"],["grandmother","할머니","n"],["uncle","삼촌","n"],["aunt","이모/고모","n"],["cousin","사촌","n"],
+["house","집","n"],["home","가정","n"],["room","방","n"],["kitchen","부엌","n"],["bedroom","침실","n"],["bathroom","화장실","n"],["living room","거실","n"],["door","문","n"],["window","창문","n"],["wall","벽","n"],
+["bed","침대","n"],["chair","의자","n"],["table","탁자","n"],["desk","책상","n"],["sofa","소파","n"],["lamp","램프","n"],["clock","시계","n"],["mirror","거울","n"],["carpet","카펫","n"],["shelf","선반","n"],
+["red","빨간","adj"],["blue","파란","adj"],["green","초록","adj"],["yellow","노란","adj"],["orange","주황","adj"],["purple","보라","adj"],["pink","분홍","adj"],["black","검정","adj"],["white","하얀","adj"],["brown","갈색","adj"],
+["first","첫 번째","adj"],["second","두 번째","adj"],["third","세 번째","adj"],["fourth","네 번째","adj"],["fifth","다섯 번째","adj"],["sixth","여섯 번째","adj"],["seventh","일곱 번째","adj"],["eighth","여덟 번째","adj"],["ninth","아홉 번째","adj"],["tenth","열 번째","adj"],
+["Monday","월요일","n"],["Tuesday","화요일","n"],["Wednesday","수요일","n"],["Thursday","목요일","n"],["Friday","금요일","n"],["Saturday","토요일","n"],["Sunday","일요일","n"],["weekend","주말","n"],["weekday","평일","n"],["holiday","휴일","n"],
+["January","1월","n"],["February","2월","n"],["March","3월","n"],["April","4월","n"],["May","5월","n"],["June","6월","n"],["July","7월","n"],["August","8월","n"],["September","9월","n"],["October","10월","n"],
+["November","11월","n"],["December","12월","n"],["morning","아침","n"],["afternoon","오후","n"],["evening","저녁","n"],["night","밤","n"],["noon","정오","n"],["midnight","한밤중","n"],["sunrise","일출","n"],["sunset","일몰","n"],
+["eat","먹다","v"],["drink","마시다","v"],["sleep","자다","v"],["wake","일어나다","v"],["walk","걷다","v"],["run","달리다","v"],["jump","뛰다","v"],["sit","앉다","v"],["stand","서다","v"],["swim","수영하다","v"],
+["play","놀다","v"],["read","읽다","v"],["write","쓰다","v"],["draw","그리다","v"],["sing","노래하다","v"],["dance","춤추다","v"],["watch","보다","v"],["listen","듣다","v"],["talk","말하다","v"],["laugh","웃다","v"],
+["come","오다","v"],["go","가다","v"],["open","열다","v"],["close","닫다","v"],["give","주다","v"],["take","가져가다","v"],["make","만들다","v"],["help","돕다","v"],["find","찾다","v"],["use","사용하다","v"],
+["school","학교","n"],["class","수업","n"],["teacher","선생님","n"],["student","학생","n"],["friend","친구","n"],["pencil","연필","n"],["pen","펜","n"],["eraser","지우개","n"],["ruler","자","n"],["notebook","공책","n"],
+["math","수학","n"],["science","과학","n"],["music","음악","n"],["art","미술","n"],["P.E.","체육","n"],["library","도서관","n"],["book","책","n"],["map","지도","n"],["test","시험","n"],["homework","숙제","n"],
+["dog","개","n"],["cat","고양이","n"],["bird","새","n"],["fish","물고기","n"],["rabbit","토끼","n"],["horse","말","n"],["cow","소","n"],["pig","돼지","n"],["sheep","양","n"],["duck","오리","n"],
+["lion","사자","n"],["tiger","호랑이","n"],["bear","곰","n"],["elephant","코끼리","n"],["monkey","원숭이","n"],["giraffe","기린","n"],["wolf","늑대","n"],["fox","여우","n"],["deer","사슴","n"],["frog","개구리","n"],
+["bread","빵","n"],["rice","쌀","n"],["egg","달걀","n"],["milk","우유","n"],["cheese","치즈","n"],["butter","버터","n"],["soup","국","n"],["salad","샐러드","n"],["pizza","피자","n"],["hamburger","햄버거","n"],
+["chicken","닭고기","n"],["beef","소고기","n"],["pork","돼지고기","n"],["fish","생선","n"],["shrimp","새우","n"],["noodle","국수","n"],["sandwich","샌드위치","n"],["cake","케이크","n"],["cookie","쿠키","n"],["candy","사탕","n"],
+["apple","사과","n"],["banana","바나나","n"],["orange","오렌지","n"],["grape","포도","n"],["strawberry","딸기","n"],["carrot","당근","n"],["potato","감자","n"],["tomato","토마토","n"],["onion","양파","n"],["cucumber","오이","n"],
+["water","물","n"],["juice","주스","n"],["tea","차","n"],["coffee","커피","n"],["sugar","설탕","n"],["sweet","달콤한","adj"],["sour","신","adj"],["salty","짠","adj"],["bitter","쓴","adj"],["spicy","매운","adj"],
+["shirt","셔츠","n"],["pants","바지","n"],["dress","드레스","n"],["skirt","치마","n"],["jacket","재킷","n"],["coat","코트","n"],["shoes","신발","n"],["socks","양말","n"],["hat","모자","n"],["scarf","목도리","n"],
+["gloves","장갑","n"],["boots","부츠","n"],["uniform","교복","n"],["T-shirt","티셔츠","n"],["sweater","스웨터","n"],["glasses","안경","n"],["belt","벨트","n"],["bag","가방","n"],["umbrella","우산","n"],["watch","손목시계","n"],
+["sun","태양","n"],["moon","달","n"],["star","별","n"],["sky","하늘","n"],["cloud","구름","n"],["rain","비","n"],["snow","눈","n"],["wind","바람","n"],["storm","폭풍","n"],["rainbow","무지개","n"],
+["mountain","산","n"],["river","강","n"],["ocean","바다","n"],["lake","호수","n"],["forest","숲","n"],["tree","나무","n"],["flower","꽃","n"],["grass","풀","n"],["rock","바위","n"],["sand","모래","n"],
+["weather","날씨","n"],["sunny","맑은","adj"],["cloudy","흐린","adj"],["windy","바람 부는","adj"],["rainy","비 오는","adj"],["snowy","눈 오는","adj"],["hot","뜨거운","adj"],["cold","차가운","adj"],["warm","따뜻한","adj"],["cool","시원한","adj"],
+["spring","봄","n"],["summer","여름","n"],["fall","가을","n"],["winter","겨울","n"],["season","계절","n"],["temperature","온도","n"],["degree","도","n"],["fog","안개","n"],["ice","얼음","n"],["thunder","천둥","n"],
+["car","자동차","n"],["bus","버스","n"],["train","기차","n"],["bicycle","자전거","n"],["airplane","비행기","n"],["ship","배","n"],["subway","지하철","n"],["taxi","택시","n"],["truck","트럭","n"],["motorcycle","오토바이","n"],
+["school","학교","n"],["hospital","병원","n"],["park","공원","n"],["store","가게","n"],["market","시장","n"],["restaurant","식당","n"],["bank","은행","n"],["library","도서관","n"],["museum","박물관","n"],["church","교회","n"],
+["street","거리","n"],["road","도로","n"],["bridge","다리","n"],["station","역","n"],["airport","공항","n"],["hotel","호텔","n"],["theater","극장","n"],["gym","체육관","n"],["playground","운동장","n"],["post office","우체국","n"],
+["big","큰","adj"],["small","작은","adj"],["tall","키가 큰","adj"],["short","짧은","adj"],["long","긴","adj"],["wide","넓은","adj"],["narrow","좁은","adj"],["thick","두꺼운","adj"],["thin","얇은","adj"],["round","둥근","adj"],
+["fast","빠른","adj"],["slow","느린","adj"],["easy","쉬운","adj"],["hard","어려운","adj"],["clean","깨끗한","adj"],["dirty","더러운","adj"],["new","새로운","adj"],["old","오래된","adj"],["young","젊은","adj"],["heavy","무거운","adj"],
+["happy","행복한","adj"],["sad","슬픈","adj"],["angry","화난","adj"],["scared","무서운","adj"],["excited","신나는","adj"],["bored","지루한","adj"],["tired","피곤한","adj"],["surprised","놀란","adj"],["proud","자랑스러운","adj"],["shy","수줍은","adj"],
+["very","매우","adv"],["too","너무","adv"],["always","항상","adv"],["never","절대 아니","adv"],["often","자주","adv"],["sometimes","가끔","adv"],["usually","보통","adv"],["really","정말로","adv"],["quickly","빠르게","adv"],["slowly","천천히","adv"],
+["in","~안에","prep"],["on","~위에","prep"],["under","~아래에","prep"],["next to","~옆에","prep"],["between","~사이에","prep"],["behind","~뒤에","prep"],["in front of","~앞에","prep"],["near","~근처에","prep"],["above","~위쪽에","prep"],["below","~아래쪽에","prep"],
+["and","그리고","conj"],["but","하지만","conj"],["or","또는","conj"],["so","그래서","conj"],["because","왜냐하면","conj"],["if","만약","conj"],["when","~할 때","conj"],["after","~후에","conj"],["before","~전에","conj"],["while","~하는 동안","conj"],
+["soccer","축구","n"],["basketball","농구","n"],["baseball","야구","n"],["tennis","테니스","n"],["volleyball","배구","n"],["swimming","수영","n"],["running","달리기","n"],["skiing","스키","n"],["golf","골프","n"],["badminton","배드민턴","n"],
+["hobby","취미","n"],["game","게임","n"],["movie","영화","n"],["music","음악","n"],["cooking","요리","n"],["reading","독서","n"],["painting","그림 그리기","n"],["camping","캠핑","n"],["fishing","낚시","n"],["hiking","하이킹","n"],
+["health","건강","n"],["sick","아픈","adj"],["well","건강한","adj"],["pain","고통","n"],["fever","열","n"],["cold","감기","n"],["headache","두통","n"],["stomachache","복통","n"],["doctor","의사","n"],["medicine","약","n"],
+["teacher","선생님","n"],["doctor","의사","n"],["nurse","간호사","n"],["police","경찰","n"],["firefighter","소방관","n"],["farmer","농부","n"],["cook","요리사","n"],["driver","운전사","n"],["pilot","조종사","n"],["artist","예술가","n"],
+["singer","가수","n"],["actor","배우","n"],["writer","작가","n"],["scientist","과학자","n"],["engineer","엔지니어","n"],["banker","은행원","n"],["soldier","군인","n"],["baker","제빵사","n"],["dentist","치과의사","n"],["reporter","기자","n"],
+["buy","사다","v"],["sell","팔다","v"],["pay","지불하다","v"],["borrow","빌리다","v"],["return","돌려주다","v"],["carry","나르다","v"],["throw","던지다","v"],["catch","잡다","v"],["push","밀다","v"],["pull","당기다","v"],
+["start","시작하다","v"],["finish","끝내다","v"],["stop","멈추다","v"],["try","시도하다","v"],["need","필요하다","v"],["want","원하다","v"],["like","좋아하다","v"],["love","사랑하다","v"],["hate","싫어하다","v"],["forget","잊다","v"],
+["call","전화하다","v"],["ask","묻다","v"],["tell","말하다","v"],["show","보여주다","v"],["bring","가져오다","v"],["send","보내다","v"],["receive","받다","v"],["choose","선택하다","v"],["check","확인하다","v"],["fix","고치다","v"],
+["cook","요리하다","v"],["bake","굽다","v"],["clean","청소하다","v"],["wash","씻다","v"],["dry","말리다","v"],["cut","자르다","v"],["boil","끓이다","v"],["fry","튀기다","v"],["mix","섞다","v"],["pour","붓다","v"],
+["earth","지구","n"],["air","공기","n"],["water","물","n"],["fire","불","n"],["light","빛","n"],["plant","식물","n"],["seed","씨앗","n"],["leaf","잎","n"],["root","뿌리","n"],["soil","흙","n"],
+["shape","모양","n"],["square","정사각형","n"],["circle","원","n"],["triangle","삼각형","n"],["rectangle","직사각형","n"],["large","큰","adj"],["tiny","아주 작은","adj"],["deep","깊은","adj"],["shallow","얕은","adj"],["flat","평평한","adj"],
+["many","많은","adj"],["few","적은","adj"],["some","일부","adj"],["all","모든","adj"],["both","둘 다","adj"],["each","각각","adj"],["every","모든","adj"],["enough","충분한","adj"],["more","더 많은","adj"],["less","더 적은","adj"],
+["today","오늘","adv"],["tomorrow","내일","adv"],["yesterday","어제","adv"],["now","지금","adv"],["soon","곧","adv"],["again","다시","adv"],["already","이미","adv"],["still","아직","adv"],["just","막","adv"],["late","늦게","adv"],
+["hello","안녕","n"],["goodbye","안녕히 가세요","n"],["please","제발","adv"],["thank you","감사합니다","n"],["sorry","미안해요","adj"],["excuse me","실례합니다","n"],["welcome","환영합니다","adj"],["sure","물론이죠","adv"],["great","훌륭한","adj"],["wonderful","멋진","adj"],
+["country","나라","n"],["city","도시","n"],["town","마을","n"],["map","지도","n"],["trip","여행","n"],["passport","여권","n"],["ticket","티켓","n"],["arrive","도착하다","v"],["leave","떠나다","v"],["visit","방문하다","v"],
+["money","돈","n"],["price","가격","n"],["expensive","비싼","adj"],["cheap","저렴한","adj"],["free","무료의","adj"],["shop","가게","n"],["spend","소비하다","v"],["save","저축하다","v"],["earn","벌다","v"],["change","거스름돈","n"],
+["computer","컴퓨터","n"],["phone","전화","n"],["internet","인터넷","n"],["email","이메일","n"],["video","동영상","n"],["photo","사진","n"],["camera","카메라","n"],["screen","화면","n"],["robot","로봇","n"],["app","앱","n"],
+["question","질문","n"],["answer","대답","n"],["problem","문제","n"],["rule","규칙","n"],["team","팀","n"],["group","그룹","n"],["project","프로젝트","n"],["report","보고서","n"],["grade","성적","n"],["practice","연습","n"],
+["kind","친절한","adj"],["brave","용감한","adj"],["honest","정직한","adj"],["clever","영리한","adj"],["polite","예의 바른","adj"],["gentle","온화한","adj"],["careful","조심스러운","adj"],["smart","똑똑한","adj"],["creative","창의적인","adj"],["patient","인내심 있는","adj"],
+["light","가벼운","adj"],["heavy","무거운","adj"],["loud","시끄러운","adj"],["quiet","조용한","adj"],["strong","강한","adj"],["weak","약한","adj"],["rich","부유한","adj"],["poor","가난한","adj"],["full","가득 찬","adj"],["empty","비어 있는","adj"],
+["open","열린","adj"],["closed","닫힌","adj"],["right","옳은","adj"],["wrong","틀린","adj"],["safe","안전한","adj"],["dangerous","위험한","adj"],["healthy","건강한","adj"],["sick","아픈","adj"],["possible","가능한","adj"],["impossible","불가능한","adj"],
+["study","공부하다","v"],["learn","배우다","v"],["teach","가르치다","v"],["understand","이해하다","v"],["remember","기억하다","v"],["think","생각하다","v"],["know","알다","v"],["believe","믿다","v"],["feel","느끼다","v"],["hope","바라다","v"],
+["grow","자라다","v"],["build","짓다","v"],["break","깨다","v"],["share","나누다","v"],["join","참여하다","v"],["move","움직이다","v"],["change","바꾸다","v"],["create","창조하다","v"],["discover","발견하다","v"],["explore","탐험하다","v"],
+["describe","묘사하다","v"],["explain","설명하다","v"],["introduce","소개하다","v"],["prepare","준비하다","v"],["plan","계획하다","v"],["decide","결정하다","v"],["agree","동의하다","v"],["suggest","제안하다","v"],["help","돕다","v"],["protect","보호하다","v"],
+["action","행동","n"],["activity","활동","n"],["exercise","운동","n"],["rest","휴식","n"],["sleep","잠","n"],["meal","식사","n"],["breakfast","아침식사","n"],["lunch","점심","n"],["dinner","저녁식사","n"],["snack","간식","n"],
+["garden","정원","n"],["yard","마당","n"],["forest","숲","n"],["field","들판","n"],["beach","해변","n"],["island","섬","n"],["desert","사막","n"],["cave","동굴","n"],["valley","계곡","n"],["hill","언덕","n"],
+["key","열쇠","n"],["lock","자물쇠","n"],["rope","밧줄","n"],["tape","테이프","n"],["glue","풀","n"],["scissors","가위","n"],["needle","바늘","n"],["brush","붓","n"],["pot","냄비","n"],["bowl","그릇","n"],
+["traffic","교통량","n"],["speed","속도","n"],["seat","좌석","n"],["driver","운전사","n"],["passenger","승객","n"],["journey","여정","n"],["direction","방향","n"],["north","북쪽","n"],["south","남쪽","n"],["east","동쪽","n"],
+["west","서쪽","n"],["left","왼쪽","n"],["right","오른쪽","n"],["straight","직진","adv"],["corner","모퉁이","n"],["middle","가운데","n"],["side","옆면","n"],["top","꼭대기","n"],["bottom","바닥","n"],["edge","가장자리","n"],
+["subject","과목","n"],["history","역사","n"],["geography","지리","n"],["language","언어","n"],["lesson","수업","n"],["exam","시험","n"],["result","결과","n"],["score","점수","n"],["pass","통과","n"],["fail","실패","n"],
+["story","이야기","n"],["poem","시","n"],["song","노래","n"],["dance","춤","n"],["play","연극","n"],["concert","콘서트","n"],["festival","축제","n"],["museum","박물관","n"],["gallery","갤러리","n"],["exhibition","전시회","n"],
+["recipe","레시피","n"],["ingredient","재료","n"],["flavor","맛","n"],["fresh","신선한","adj"],["frozen","냉동된","adj"],["raw","날것의","adj"],["ripe","익은","adj"],["delicious","맛있는","adj"],["taste","맛","n"],["smell","냄새","n"],
+["environment","환경","n"],["nature","자연","n"],["animal","동물","n"],["insect","곤충","n"],["butterfly","나비","n"],["bee","벌","n"],["ant","개미","n"],["spider","거미","n"],["worm","벌레","n"],["shell","껍데기","n"],
+["community","공동체","n"],["neighbor","이웃","n"],["leader","지도자","n"],["member","구성원","n"],["meeting","모임","n"],["event","행사","n"],["vote","투표하다","v"],["rule","규칙","n"],["law","법","n"],["right","권리","n"],
+["see","보다","v"],["hear","듣다","v"],["smell","냄새 맡다","v"],["taste","맛보다","v"],["touch","만지다","v"],["look","바라보다","v"],["sound","~처럼 들리다","v"],["feel","느끼다","v"],["notice","알아채다","v"],["enjoy","즐기다","v"],
+["better","더 나은","adj"],["worse","더 나쁜","adj"],["best","최고의","adj"],["worst","최악의","adj"],["same","같은","adj"],["different","다른","adj"],["similar","비슷한","adj"],["special","특별한","adj"],["normal","보통의","adj"],["usual","일반적인","adj"],
+["earthquake","지진","n"],["flood","홍수","n"],["drought","가뭄","n"],["volcano","화산","n"],["tornado","토네이도","n"],["hurricane","허리케인","n"],["lightning","번개","n"],["hail","우박","n"],["mist","안개","n"],["breeze","산들바람","n"],
+["worry","걱정하다","v"],["smile","미소 짓다","v"],["cry","울다","v"],["laugh","웃다","v"],["shout","소리치다","v"],["whisper","속삭이다","v"],["calm","침착한","adj"],["nervous","긴장한","adj"],["confused","혼란스러운","adj"],["lonely","외로운","adj"],
+["goal","목표","n"],["dream","꿈","n"],["plan","계획","n"],["idea","아이디어","n"],["effort","노력","n"],["success","성공","n"],["failure","실패","n"],["chance","기회","n"],["choice","선택","n"],["reason","이유","n"],
+["wood","나무","n"],["metal","금속","n"],["plastic","플라스틱","n"],["glass","유리","n"],["paper","종이","n"],["cloth","천","n"],["rubber","고무","n"],["stone","돌","n"],["brick","벽돌","n"],["iron","철","n"],
+["exercise","운동하다","v"],["stretch","스트레칭하다","v"],["breathe","숨쉬다","v"],["sweat","땀 흘리다","v"],["relax","긴장을 풀다","v"],["injury","부상","n"],["muscle","근육","n"],["energy","에너지","n"],["diet","식이요법","n"],["vitamin","비타민","n"],
+["furniture","가구","n"],["curtain","커튼","n"],["pillow","베개","n"],["blanket","담요","n"],["towel","수건","n"],["garbage","쓰레기","n"],["laundry","빨래","n"],["repair","수리하다","v"],["decorate","꾸미다","v"],["organize","정리하다","v"],
+["question","질문","n"],["example","예시","n"],["information","정보","n"],["fact","사실","n"],["opinion","의견","n"],["compare","비교하다","v"],["explain","설명하다","v"],["solve","풀다","v"],["review","검토하다","v"],["research","조사하다","v"],
+["moment","순간","n"],["past","과거","n"],["present","현재","n"],["future","미래","n"],["recent","최근의","adj"],["early","이른","adj"],["finally","마침내","adv"],["suddenly","갑자기","adv"],["immediately","즉시","adv"],["gradually","서서히","adv"],
+["order","주문하다","v"],["menu","메뉴","n"],["serve","제공하다","v"],["portion","1인분","n"],["bill","청구서","n"],["tip","팁","n"],["reservation","예약","n"],["waiter","웨이터","n"],["chef","요리사","n"],["kitchen","주방","n"],
+["product","제품","n"],["quality","질","n"],["discount","할인","n"],["receipt","영수증","n"],["refund","환불","n"],["size","크기","n"],["brand","브랜드","n"],["style","스타일","n"],["popular","인기 있는","adj"],["available","이용 가능한","adj"],
+["message","메시지","n"],["contact","연락하다","v"],["reply","대답하다","v"],["post","올리다","v"],["share","공유하다","v"],["upload","업로드하다","v"],["download","다운로드하다","v"],["search","검색하다","v"],["follow","팔로우하다","v"],["connect","연결하다","v"],
+["trip","소풍","n"],["picnic","소풍","n"],["contest","대회","n"],["prize","상","n"],["award","수상","n"],["ceremony","행사","n"],["speech","연설","n"],["performance","공연","n"],["volunteer","자원봉사하다","v"],["donate","기부하다","v"],
+["experiment","실험","n"],["result","결과","n"],["energy","에너지","n"],["force","힘","n"],["gravity","중력","n"],["magnet","자석","n"],["electricity","전기","n"],["temperature","온도","n"],["oxygen","산소","n"],["carbon","탄소","n"],
+["respect","존중하다","v"],["trust","신뢰하다","v"],["care","돌보다","v"],["support","지지하다","v"],["cooperate","협력하다","v"],["responsibility","책임","n"],["freedom","자유","n"],["justice","정의","n"],["equality","평등","n"],["peace","평화","n"],
+["apologize","사과하다","v"],["forgive","용서하다","v"],["appreciate","감사하다","v"],["encourage","격려하다","v"],["celebrate","축하하다","v"],["congratulate","축하하다","v"],["invite","초대하다","v"],["accept","받아들이다","v"],["refuse","거절하다","v"],["offer","제안하다","v"],
+["shine","빛나다","v"],["blow","불다","v"],["fall","떨어지다","v"],["rise","오르다","v"],["freeze","얼다","v"],["melt","녹다","v"],["flood","범람하다","v"],["burn","타다","v"],["dry","마르다","v"],["wet","적시다","v"],
+["breathe","숨 쉬다","v"],["swallow","삼키다","v"],["sneeze","재채기하다","v"],["cough","기침하다","v"],["bleed","피 흘리다","v"],["heal","낫다","v"],["recover","회복하다","v"],["treatment","치료","n"],["symptom","증상","n"],["allergy","알레르기","n"],
+["address","주소","n"],["neighbor","이웃","n"],["apartment","아파트","n"],["building","건물","n"],["floor","층","n"],["elevator","엘리베이터","n"],["entrance","입구","n"],["exit","출구","n"],["parking","주차","n"],["fence","울타리","n"],
+["appear","나타나다","v"],["disappear","사라지다","v"],["arrive","도착하다","v"],["return","돌아오다","v"],["follow","따르다","v"],["lead","이끌다","v"],["avoid","피하다","v"],["allow","허용하다","v"],["prevent","막다","v"],["cause","일으키다","v"],
+["perfect","완벽한","adj"],["terrible","끔찍한","adj"],["amazing","놀라운","adj"],["boring","지루한","adj"],["exciting","신나는","adj"],["interesting","흥미로운","adj"],["funny","웃긴","adj"],["serious","심각한","adj"],["strange","이상한","adj"],["simple","단순한","adj"],
+["question","질문","n"],["answer","대답","n"],["beginning","시작","n"],["end","끝","n"],["winner","승자","n"],["loser","패자","n"],["hero","영웅","n"],["enemy","적","n"],["truth","진실","n"],["lie","거짓말","n"],
+["describe","묘사하다","v"],["imagine","상상하다","v"],["picture","그림으로 표현하다","v"],["express","표현하다","v"],["represent","나타내다","v"],["match","맞추다","v"],["fit","맞다","v"],["suit","어울리다","v"],["design","디자인하다","v"],["decorate","장식하다","v"],
+["half","절반","n"],["quarter","4분의 1","n"],["double","두 배의","adj"],["single","하나의","adj"],["triple","세 배의","adj"],["pair","한 쌍","n"],["dozen","12개","n"],["total","합계","n"],["average","평균","n"],["percent","퍼센트","n"],
+["understand","이해하다","v"],["memorize","암기하다","v"],["review","복습하다","v"],["concentrate","집중하다","v"],["improve","향상시키다","v"],["correct","바로잡다","v"],["mistake","실수","n"],["progress","진전","n"],["habit","습관","n"],["schedule","일정","n"],
+["recycle","재활용하다","v"],["reduce","줄이다","v"],["protect","보호하다","v"],["save","아끼다","v"],["pollute","오염시키다","v"],["pollution","오염","n"],["natural","자연의","adj"],["clean","깨끗한","adj"],["waste","낭비하다","v"],["resource","자원","n"],
+["first","첫째로","adv"],["then","그 다음에","adv"],["next","다음으로","adv"],["finally","마침내","adv"],["also","또한","adv"],["however","그러나","adv"],["for example","예를 들어","adv"],["in fact","사실","adv"],["of course","물론","adv"],["instead","대신에","adv"],
+["delicious","맛있는","adj"],["comfortable","편안한","adj"],["dangerous","위험한","adj"],["necessary","필요한","adj"],["popular","인기 있는","adj"],["powerful","강력한","adj"],["beautiful","아름다운","adj"],["important","중요한","adj"],["useful","유용한","adj"],["difficult","어려운","adj"],
+["achieve","달성하다","v"],["communicate","소통하다","v"],["concentrate","집중하다","v"],["participate","참여하다","v"],["contribute","기여하다","v"],["challenge","도전하다","v"],["develop","발전하다","v"],["practice","연습하다","v"],["prepare","준비하다","v"],["succeed","성공하다","v"],
+];
+
+const DAY_VIDEOS = {
+  // DAY 1-2: 신체
+  '1': [{id:'lMQcwNZVUO8',title:'Super Simple Songs — Head Shoulders Knees Toes',desc:'DAY 1 신체 단어 head·shoulder·knee·toe 노래로 완벽 연습!',time:'2분'},{id:'WX8HmogNyCY',title:'Head Shoulders Speeding Up — Super Simple',desc:'점점 빨라지는 버전! 신체 발음 훈련에 최적.',time:'2분'},{id:'w39Vr6JRq8Q',title:'Caitie Classroom — Head Shoulders Sing Along',desc:'원어민 선생님과 함께 신체 단어 노래 복습.',time:'2분'}],
+  '2': [{id:'lMQcwNZVUO8',title:'Super Simple Songs — Head Shoulders Knees Toes',desc:'DAY 2 얼굴·몸 단어(face·hair·tooth·lip) 연계 신체 노래.',time:'2분'},{id:'_mRwCzQ_VIE',title:'Head Shoulders Karaoke (가사 포함)',desc:'가사 보며 따라 부르기! 신체 단어 완전 정복.',time:'3분'},{id:'SC6pnWEvVIg',title:'Super Simple — Head Shoulders + More Songs',desc:'신체·동물·색깔 복합 영상. 15분 연속 청취 훈련.',time:'15분'}],
+  // DAY 3: 가족
+  '3': [{id:'svS0UikccrY',title:'English Singsing — Family Members Song',desc:'DAY 3 가족 단어 father·mother·brother·sister 노래.',time:'3분'},{id:'aeQlnlMpizI',title:'Dream English — Hello Song for Kids',desc:'가족과 함께 인사 표현 연습.',time:'2분'},{id:'pqDEwPi7vxg',title:'Miss Linky — Hello Morning Stretch',desc:'가족과 함께하는 아침 영어 루틴.',time:'4분'}],
+  // DAY 4-5: 집·가구
+  '4': [{id:'svS0UikccrY',title:'English Singsing — Hello Song',desc:'DAY 4 집·방 단어 house·room·kitchen 생활 영어.',time:'3분'},{id:'pqDEwPi7vxg',title:'Miss Linky — Morning Stretch Song',desc:'집 안에서 하는 아침 영어 루틴.',time:'4분'},{id:'aeQlnlMpizI',title:'Dream English — Hello Song',desc:'집에서 시작하는 인사 표현.',time:'2분'}],
+  '5': [{id:'svS0UikccrY',title:'English Singsing — Hello Goodbye Song',desc:'DAY 5 가구 단어 bed·chair·table·desk 생활 영어.',time:'3분'},{id:'aeQlnlMpizI',title:'Dream English — Hello Song',desc:'생활 영어 기초 표현.',time:'2분'},{id:'pqDEwPi7vxg',title:'Miss Linky — Morning Song',desc:'일상 생활 영어 루틴.',time:'4분'}],
+  // DAY 6: 색깔
+  '6': [{id:'js7rsiq-Gfo',title:'ChuChu TV — Days, Colors, Numbers Song',desc:'DAY 6 색깔 단어 red·blue·green·yellow 노래!',time:'5분'},{id:'_mRwCzQ_VIE',title:'Super Simple Karaoke — Colors Song',desc:'색깔 표현 노래로 완전 정복.',time:'3분'},{id:'SC6pnWEvVIg',title:'Super Simple — Colors + More Songs',desc:'색깔·신체 복합 영상.',time:'15분'}],
+  // DAY 7: 서수
+  '7': [{id:'js7rsiq-Gfo',title:'ChuChu TV — Numbers Song',desc:'DAY 7 서수 first·second·third 숫자 노래.',time:'5분'},{id:'wyHxynLSEho',title:'Fun Kids English — Days of the Week',desc:'순서 표현 연습.',time:'3분'},{id:'mXMofxtDPUQ',title:'Singing Walrus — Days of the Week',desc:'순서와 요일 함께 학습.',time:'2분'}],
+  // DAY 8: 요일
+  '8': [{id:'wyHxynLSEho',title:'Fun Kids English — Days of the Week Song',desc:'DAY 8 요일 Monday~Sunday 완전 정복!',time:'3분'},{id:'mXMofxtDPUQ',title:'Singing Walrus — Days of the Week',desc:'요일 발음 집중 훈련.',time:'2분'},{id:'70arjDLn0_g',title:'Super Simple — Days of the Week (Finny)',desc:'귀여운 캐릭터와 요일 노래.',time:'2분'}],
+  // DAY 9-10: 월
+  '9': [{id:'bk4DDv8u58Q',title:'Fun Kids English — Months of the Year Song',desc:'DAY 9 월 January~October 완전 정복!',time:'3분'},{id:'__Fhw6nowDE',title:'Days of Week & Months — Kids Songs',desc:'요일과 월 통합 복습.',time:'4분'},{id:'XKnRahzQiKc',title:'Kids Academy — Days of the Week',desc:'월 순서 복습.',time:'3분'}],
+  '10': [{id:'bk4DDv8u58Q',title:'Fun Kids English — Months of the Year Song',desc:'DAY 10 월·시간 November·December·morning·night 연계.',time:'3분'},{id:'__Fhw6nowDE',title:'Days of Week & Months — Kids Songs',desc:'월과 시간 표현 통합.',time:'4분'},{id:'js7rsiq-Gfo',title:'ChuChu TV — Days Colors Numbers',desc:'시간·숫자 복합 학습.',time:'5분'}],
+  // DAY 11-13: 기초 동사
+  '11': [{id:'lMQcwNZVUO8',title:'Super Simple — Head Shoulders (움직임 동사)',desc:'DAY 11 eat·drink·sleep·walk·run 동사 노래와 동작.',time:'2분'},{id:'pqDEwPi7vxg',title:'Miss Linky — Morning Stretch Song',desc:'동사 표현 아침 루틴.',time:'4분'},{id:'_mRwCzQ_VIE',title:'Super Simple Karaoke — Action Song',desc:'동작 동사 노래.',time:'3분'}],
+  '12': [{id:'_mRwCzQ_VIE',title:'Super Simple Karaoke (동작 노래)',desc:'DAY 12 play·read·write·draw·sing·dance 동사 연습.',time:'3분'},{id:'pqDEwPi7vxg',title:'Miss Linky — Morning Song',desc:'동사 일상 표현.',time:'4분'},{id:'lMQcwNZVUO8',title:'Head Shoulders — 동작 복습',desc:'신체+동사 통합 복습.',time:'2분'}],
+  '13': [{id:'svS0UikccrY',title:'English Singsing — Come and Go Song',desc:'DAY 13 come·go·open·close·give 기초 동사.',time:'3분'},{id:'aeQlnlMpizI',title:'Dream English — Hello Song',desc:'기초 동사 인사 표현.',time:'2분'},{id:'pqDEwPi7vxg',title:'Miss Linky — Morning Routine',desc:'일상 동사 루틴.',time:'4분'}],
+  // DAY 14-15: 학교
+  '14': [{id:'TjPFZaMe2yw',title:'TED-Ed — 3 Tips to Study Effectively',desc:'DAY 14 school·class·teacher·student·pencil 학교 단어.',time:'5분'},{id:'f2O6mQkFiiw',title:'TED-Ed — How to Practice Effectively',desc:'학교 공부법 영상.',time:'5분'},{id:'svS0UikccrY',title:'English Singsing — School Song',desc:'학교 단어 노래.',time:'3분'}],
+  '15': [{id:'TjPFZaMe2yw',title:'TED-Ed — Study Tips',desc:'DAY 15 math·science·music·art·PE 과목 영어.',time:'5분'},{id:'f2O6mQkFiiw',title:'TED-Ed — Practice Effectively',desc:'과목 공부법.',time:'5분'},{id:'XKnRahzQiKc',title:'Kids Academy — School Song',desc:'학교 과목 노래.',time:'3분'}],
+  // DAY 16-17: 동물
+  '16': [{id:'SC6pnWEvVIg',title:'Super Simple Songs — Animal Songs',desc:'DAY 16 dog·cat·bird·fish·rabbit 동물 노래!',time:'15분'},{id:'_mRwCzQ_VIE',title:'Animal Karaoke Song',desc:'동물 이름 노래로 외우기.',time:'3분'},{id:'lMQcwNZVUO8',title:'Super Simple — Animal Sounds',desc:'동물 소리와 이름.',time:'2분'}],
+  '17': [{id:'SC6pnWEvVIg',title:'Super Simple — Animal Songs',desc:'DAY 17 lion·tiger·bear·elephant·monkey 야생동물 노래.',time:'15분'},{id:'_mRwCzQ_VIE',title:'Wild Animal Karaoke',desc:'야생동물 영어 표현.',time:'3분'},{id:'pqDEwPi7vxg',title:'Animal Morning Song',desc:'동물 표현 복습.',time:'4분'}],
+  // DAY 18-20: 음식·과일
+  '18': [{id:'js7rsiq-Gfo',title:'ChuChu TV — Food Song',desc:'DAY 18 bread·rice·egg·milk·pizza 음식 단어 노래!',time:'5분'},{id:'svS0UikccrY',title:'English Singsing — Food Song',desc:'음식 이름 노래로 암기.',time:'3분'},{id:'_mRwCzQ_VIE',title:'Food Karaoke Song',desc:'음식 단어 따라 부르기.',time:'3분'}],
+  '19': [{id:'js7rsiq-Gfo',title:'ChuChu TV — Food Song',desc:'DAY 19 chicken·beef·noodle·cake·candy 음식 심화.',time:'5분'},{id:'svS0UikccrY',title:'English Singsing — Food Song',desc:'음식 표현 노래 복습.',time:'3분'},{id:'SC6pnWEvVIg',title:'Super Simple — Food Songs',desc:'음식 복합 영상.',time:'15분'}],
+  '20': [{id:'js7rsiq-Gfo',title:'ChuChu TV — Fruit & Veggie Song',desc:'DAY 20 apple·banana·carrot·potato·tomato 과일·채소!',time:'5분'},{id:'svS0UikccrY',title:'English Singsing — Fruit Song',desc:'과일 이름 노래.',time:'3분'},{id:'_mRwCzQ_VIE',title:'Fruit & Vegetable Karaoke',desc:'과일·채소 따라 부르기.',time:'3분'}],
+  '97': [{id:'RS7IzU2VJIQ',title:'Kurzgesagt — Plastic Pollution',desc:'DAY 97 recycle·reduce·pollution·natural 환경 단어!',time:'9분'},{id:'TjPFZaMe2yw',title:'TED-Ed — Study Tips',desc:'환경 보호 실천법.',time:'5분'},{id:'NueSlu_PWXc',title:'Effects of Plastic Pollution',desc:'플라스틱 오염 환경 영상.',time:'3분'}],
+}
+
+const DV_RANGE=[
+  {r:[1,5],ids:['lMQcwNZVUO8','_mRwCzQ_VIE','SC6pnWEvVIg']},
+  {r:[6,10],ids:['js7rsiq-Gfo','wyHxynLSEho','bk4DDv8u58Q']},
+  {r:[11,15],ids:['lMQcwNZVUO8','TjPFZaMe2yw','f2O6mQkFiiw']},
+  {r:[16,20],ids:['SC6pnWEvVIg','js7rsiq-Gfo','_mRwCzQ_VIE']},
+  {r:[21,30],ids:['wyHxynLSEho','bk4DDv8u58Q','__Fhw6nowDE']},
+  {r:[31,50],ids:['TjPFZaMe2yw','f2O6mQkFiiw','lMQcwNZVUO8']},
+  {r:[51,75],ids:['TjPFZaMe2yw','f2O6mQkFiiw','Hhk4N9A0oCA']},
+  {r:[76,100],ids:['TjPFZaMe2yw','Hhk4N9A0oCA','RS7IzU2VJIQ']},
+];
+const VM={
+  'lMQcwNZVUO8':{t:'Super Simple — Head Shoulders Knees Toes',lv:'초등 1~2학년',c:'#10b981',tm:'2분',d:'신체 단어 노래'},
+  '_mRwCzQ_VIE':{t:'Super Simple Karaoke — Head Shoulders',lv:'초등 1~2학년',c:'#10b981',tm:'3분',d:'가사 보며 따라 부르기'},
+  'SC6pnWEvVIg':{t:'Super Simple — Head Shoulders + More',lv:'초등 3~4학년',c:'#4361ee',tm:'15분',d:'신체·동물·색깔 복합'},
+  'WX8HmogNyCY':{t:'Head Shoulders Speeding Up',lv:'초등 1~2학년',c:'#10b981',tm:'2분',d:'빠르게 따라 말하기'},
+  'w39Vr6JRq8Q':{t:"Caitie Classroom — Head Shoulders",lv:'초등 1~2학년',c:'#10b981',tm:'2분',d:'선생님과 함께'},
+  'svS0UikccrY':{t:'English Singsing — Hello Goodbye',lv:'초등 1~2학년',c:'#10b981',tm:'3분',d:'인사 표현'},
+  'aeQlnlMpizI':{t:'Dream English — Hello Song',lv:'초등 1~2학년',c:'#10b981',tm:'2분',d:'Hello 노래'},
+  'pqDEwPi7vxg':{t:'Miss Linky — Morning Stretch',lv:'초등 3~4학년',c:'#4361ee',tm:'4분',d:'아침 영어 루틴'},
+  'js7rsiq-Gfo':{t:'ChuChu TV — Days Colors Numbers',lv:'초등 1~2학년',c:'#10b981',tm:'5분',d:'요일·색깔·숫자'},
+  'wyHxynLSEho':{t:'Fun Kids English — Days of the Week',lv:'초등 3~4학년',c:'#4361ee',tm:'3분',d:'요일 완전 정복'},
+  'bk4DDv8u58Q':{t:'Fun Kids English — Months of Year',lv:'초등 3~4학년',c:'#4361ee',tm:'3분',d:'1월~12월 노래'},
+  '__Fhw6nowDE':{t:'Days of Week and Months',lv:'초등 3~4학년',c:'#4361ee',tm:'4분',d:'요일·월 통합'},
+  'TjPFZaMe2yw':{t:'TED-Ed — 3 Tips to Study',lv:'초등 5~6학년',c:'#f59e0b',tm:'5분',d:'효과적인 공부법'},
+  'f2O6mQkFiiw':{t:'TED-Ed — How to Practice',lv:'초등 5~6학년',c:'#f59e0b',tm:'5분',d:'연습의 과학'},
+  'Hhk4N9A0oCA':{t:'TED-Ed — What Makes a Hero',lv:'중학교 1~2학년',c:'#f72585',tm:'4분',d:'영웅의 여정'},
+  'RS7IzU2VJIQ':{t:'Kurzgesagt — Plastic Pollution',lv:'초등 5~6학년',c:'#f59e0b',tm:'9분',d:'환경 오염'},
+  'NueSlu_PWXc':{t:'Effects of Plastic Pollution',lv:'초등 5~6학년',c:'#f59e0b',tm:'3분',d:'플라스틱 오염'},
+};
+
+// ICR 학습 이력
+var H = (function(){ try{ return JSON.parse(localStorage.getItem('jH')||'{}'); }catch(e){ return {}; } })();
+function rec(en, ok){
+  if(!H[en]) H[en]={c:0,w:0};
+  if(ok) H[en].c++; else H[en].w++;
+  try{ localStorage.setItem('jH', JSON.stringify(H)); }catch(e){}
+}
+function acc(en){
+  var h=H[en];
+  if(!h || !(h.c+h.w)) return null;
+  return Math.round(h.c/(h.c+h.w)*100);
+}
+
+var POS={n:'명사',v:'동사',adj:'형용사',adv:'부사',prep:'전치사',conj:'접속사'};
+
+function gW(day){ return RAW.slice((day-1)*10, day*10).map(function(w,i){ return {num:(day-1)*10+i+1, en:w[0], ko:w[1], pos:w[2]}; }); }
+
+function gLv(day){
+  if(day<=25) return {lb:'초등 3~4학년', c:'#10b981'};
+  if(day<=50) return {lb:'초등 5~6학년', c:'#4361ee'};
+  if(day<=75) return {lb:'중학교 1학년',  c:'#f59e0b'};
+  return              {lb:'중학교 2학년',  c:'#f72585'};
+}
+
+function fillSel(id){
+  var s=document.getElementById(id); s.innerHTML='';
+  for(var d=1;d<=100;d++){ var o=document.createElement('option'); o.value=d; o.textContent='DAY '+d; s.appendChild(o); }
+}
+
+function setLv(id,day){
+  var lv=gLv(day), e=document.getElementById(id);
+  e.textContent=lv.lb; e.style.background=lv.c;
+}
+
+function tts(text, rate){
+  if(!text) return;
+  speechSynthesis.cancel();
+  var u=new SpeechSynthesisUtterance(text);
+  u.lang='en-US'; u.rate=rate||1; u.pitch=1;
+  var vs=speechSynthesis.getVoices();
+  var v=vs.find(function(x){return x.lang.startsWith('en')&&x.localService;})||vs.find(function(x){return x.lang.startsWith('en');});
+  if(v) u.voice=v;
+  speechSynthesis.speak(u);
+}
+
+function go(n){
+  document.querySelectorAll('.tab').forEach(function(t,i){ t.classList.toggle('active',i===n); });
+  document.querySelectorAll('.sec').forEach(function(s,i){ s.classList.toggle('active',i===n); });
+}
+
+// ── 공통 단어목록 렌더 ──────────────────────────
+function rWL(elId, day){
+  var ws=gW(day), g=document.getElementById(elId);
+  g.innerHTML='';
+  ws.forEach(function(w){
+    var a=acc(w.en);
+    var d=document.createElement('div'); d.className='word-card';
+    var numEl=document.createElement('span'); numEl.className='wnum'; numEl.textContent='#'+w.num;
+    var enRow=document.createElement('div'); enRow.style.cssText='display:flex;align-items:center;gap:5px;';
+    var enEl=document.createElement('span'); enEl.className='wen'; enEl.textContent=w.en;
+    enRow.appendChild(enEl);
+    if(a!==null){ var ab=document.createElement('span'); ab.className=(a>=70?'st':'wk'); ab.textContent=a+'%'; enRow.appendChild(ab); }
+    var koEl=document.createElement('span'); koEl.className='wko'; koEl.textContent=w.ko;
+    var btns=document.createElement('div'); btns.className='btns';
+    var btn=document.createElement('button'); btn.className='btn btn-l'; btn.textContent='🔊';
+    (function(en){ btn.onclick=function(){ tts(en,1); }; })(w.en);
+    btns.appendChild(btn);
+    d.appendChild(numEl); d.appendChild(enRow); d.appendChild(koEl); d.appendChild(btns);
+    g.appendChild(d);
+  });
+}
+
+// ── 리스닝 ──────────────────────────────────────
+var lDone=new Set();
+function iListen(){
+  var day=+document.getElementById('d0').value;
+  setLv('lv0',day); lDone.clear(); rListen(day);
+}
+function rListen(day){
+  var ws=gW(day), g=document.getElementById('wl0'); g.innerHTML='';
+  ws.forEach(function(w,i){
+    var a=acc(w.en);
+    var d=document.createElement('div'); d.className='word-card'; d.id='lc'+i;
+    d.style.borderLeftColor=lDone.has(i)?'#06d6a0':'#4361ee';
+    var numEl=document.createElement('span'); numEl.className='wnum'; numEl.textContent='#'+w.num;
+    var enRow=document.createElement('div'); enRow.style.cssText='display:flex;align-items:center;gap:6px;';
+    var enEl=document.createElement('span'); enEl.className='wen'; enEl.textContent=w.en;
+    enRow.appendChild(enEl);
+    if(a!==null){ var ab=document.createElement('span'); ab.className=(a>=70?'st':'wk'); ab.textContent=a+'%'; enRow.appendChild(ab); }
+    var posEl=document.createElement('span'); posEl.className='wpos'; posEl.textContent=POS[w.pos]||w.pos;
+    var koEl=document.createElement('span'); koEl.className='wko'; koEl.textContent=w.ko;
+    var btns=document.createElement('div'); btns.className='btns';
+    ['🔊 듣기','🐢 천천히','🎤 따라'].forEach(function(label, bi){
+      var btn=document.createElement('button');
+      btn.className='btn '+(bi===0?'btn-l':bi===1?'btn-s':'btn-m');
+      btn.textContent=label;
+      var r=(bi===1)?0.5:1;
+      if(bi===2){
+        // 따라: TTS 재생 후 완료 표시 (마이크 불필요)
+        (function(en,idx){
+          btn.onclick=function(){
+            tts(en,0.8);
+            lDone.add(idx);
+            var c=document.getElementById('lc'+idx);
+            if(c) c.style.borderLeftColor='#06d6a0';
+            btn.textContent='✅ 완료!';
+            btn.style.background='#dcfce7';
+            btn.style.color='#166534';
+            setTimeout(function(){ btn.textContent='🎤 따라'; btn.style.background=''; btn.style.color=''; },1500);
+            uLP(+document.getElementById('d0').value);
+          };
+        })(w.en,i);
+      } else {
+        (function(en,rate,idx){ btn.onclick=function(){ tts(en,rate); lDone.add(idx); var c=document.getElementById('lc'+idx); if(c)c.style.borderLeftColor='#06d6a0'; uLP(+document.getElementById('d0').value); }; })(w.en,r,i);
+      }
+      btns.appendChild(btn);
+    });
+    d.appendChild(numEl); d.appendChild(enRow); d.appendChild(posEl); d.appendChild(koEl); d.appendChild(btns);
+    g.appendChild(d);
+  });
+  uLP(day);
+}
+function uLP(day){
+  var p=Math.round(lDone.size/10*100);
+  document.getElementById('pb0').style.width=p+'%';
+  document.getElementById('pt0').textContent=lDone.size+'/10 완료 ('+p+'%)';
+}
+
+// ── 쉐도잉 ──────────────────────────────────────
+var shI=0, shWs=[];
+var EX={head:["My head is big.","I have a big head."],eye:["I have two eyes.","Her eyes are beautiful."],ear:["My ear hurts.","He has big ears."],nose:["My nose is small.","The dog has a big nose."],mouth:["Open your mouth!","She has a small mouth."],hand:["Wash your hands!","My hand is clean."],foot:["My foot hurts.","I walk with my feet."],leg:["My leg is long.","The dog has four legs."],arm:["My arm is strong.","His arms are long."],finger:["I have ten fingers.","My finger hurts."]};
+function gEx(en){ return EX[en]||(en.length>2?["I have a "+en+".","This "+en+" is great!"]:["Say: "+en]); }
+function iShadow(){
+  var day=+document.getElementById('d1').value;
+  setLv('lv1',day); shI=0; shWs=gW(day); rShd(); rWL('wl1',day);
+}
+function rShd(){
+  var w=shWs[shI]; if(!w) return;
+  var ex=gEx(w.en);
+  document.getElementById('ss').textContent=ex[0];
+  document.getElementById('sk').textContent='"'+w.en+'" — '+w.ko;
+  document.getElementById('pb1').style.width=Math.round(shI/10*100)+'%';
+  document.getElementById('pt1').textContent=(shI+1)+'/10번째 단어';
+}
+function nxShd(){
+  document.getElementById('shdResult').style.display='none';
+  if(shI<9){ shI++; rShd(); }
+  else{ document.getElementById('ss').textContent='🎉 오늘 쉐도잉 완료!'; document.getElementById('sk').textContent='수고했어요, 젤리!'; document.getElementById('pb1').style.width='100%'; }
+}
+
+// ── 퀴즈 (ICR 취약단어 우선) ──────────────────────
+var qWords=[], qI=0, qSc=0, qStr=0, qDone=false;
+function iQuiz(){
+  var day=+document.getElementById('d2').value;
+  setLv('lv2',day);
+  var all=gW(day);
+  var wk=all.filter(function(w){ var h=H[w.en]; return h&&h.w>h.c; });
+  var rs=all.filter(function(w){ return !wk.find(function(x){ return x.en===w.en; }); });
+  qWords=wk.concat(rs); qI=0; qSc=0; qStr=0; qDone=false;
+  var wa=document.getElementById('wkAlert');
+  if(wk.length){ wa.style.display='block'; wa.innerHTML='⚠️ <strong>취약 단어 '+wk.length+'개</strong> 우선 출제: '+wk.map(function(w){ return '<strong>'+w.en+'</strong>'; }).join(', '); }
+  else{ wa.style.display='none'; }
+  uQS(); rQ();
+}
+function rQ(){
+  if(qI>=qWords.length){
+    document.getElementById('qq').textContent='🎉 퀴즈 완료!';
+    document.getElementById('qsub').textContent='최종 점수: '+qSc+'/'+qWords.length;
+    document.getElementById('qc').innerHTML='';
+    document.getElementById('qr').textContent='수고했어요, 젤리! 💪';
+    return;
+  }
+  qDone=false;
+  var w=qWords[qI], m=document.getElementById('qmd').value;
+  document.getElementById('pb2').style.width=Math.round(qI/qWords.length*100)+'%';
+  document.getElementById('qr').textContent='';
+  var a=acc(w.en), as=a!==null?' (정답률 '+a+'%)':'';
+  if(m==='ls'){ document.getElementById('qq').textContent='🔊 듣고 맞추기'; document.getElementById('qsub').textContent='발음을 듣고 올바른 뜻을 고르세요'+as; tts(w.en,1); }
+  else if(m==='ko'){ document.getElementById('qq').textContent=w.en; document.getElementById('qsub').textContent='이 단어의 한국어 뜻은?'+as; }
+  else{ document.getElementById('qq').textContent=w.ko; document.getElementById('qsub').textContent='한국어에 맞는 영어는?'+as; }
+  var wr=[];
+  while(wr.length<3){ var r=RAW[Math.floor(Math.random()*RAW.length)]; if(r[0]!==w.en&&!wr.find(function(x){return x[0]===r[0];})) wr.push(r); }
+  var ch=shfl([w].concat(wr.map(function(r){ return {en:r[0],ko:r[1]}; })));
+  var gc=document.getElementById('qc'); gc.innerHTML='';
+  ch.forEach(function(c){
+    var btn=document.createElement('button'); btn.className='qz-btn';
+    btn.textContent=(m==='en'?c.en:c.ko);
+    var ok=(c.en===w.en);
+    (function(isOk,b,en){ b.onclick=function(){ chkQ(isOk,b,en); }; })(ok,btn,w.en);
+    gc.appendChild(btn);
+  });
+}
+function chkQ(ok,btn,en){
+  if(qDone) return; qDone=true; rec(en,ok);
+  var m=document.getElementById('qmd').value, w=qWords[qI];
+  if(ok){ qSc++; qStr++; btn.classList.add('qok'); document.getElementById('qr').textContent='✅ 정답!'+(qStr>=3?' 🔥'+qStr+'연속!':''); tts('Correct',1); }
+  else{ qStr=0; btn.classList.add('qng'); document.querySelectorAll('.qz-btn').forEach(function(b){ if(m==='en'?b.textContent===w.en:b.textContent===w.ko) b.classList.add('qok'); }); document.getElementById('qr').textContent='❌ 정답: '+(m==='en'?w.en:w.ko); }
+  uQS();
+}
+function nxQ(){ qI++; rQ(); }
+function uQS(){ document.getElementById('qs0').textContent=qSc; document.getElementById('qs1').textContent=qDone?qI+1:qI; document.getElementById('qs2').textContent=qStr; }
+function shfl(a){ return a.sort(function(){ return Math.random()-.5; }); }
+
+// ── 문장 만들기 ─────────────────────────────────
+var sI=0, sWs=[], sW=null, sBlt='';
+var CUST={head:["My head is big.","I have a big head.","My head hurts today."],eye:["I have two eyes.","Her eyes are beautiful.","Close your eyes!"],ear:["My ear hurts.","He has big ears."],nose:["My nose is small.","The dog has a big nose."],mouth:["Open your mouth!","She has a small mouth."],hand:["Wash your hands!","My hand is clean."],foot:["My foot hurts.","I walk with my feet."],leg:["My leg is long.","The dog has four legs."],arm:["My arm is strong.","His arms are long."],finger:["I have ten fingers.","My finger hurts."]};
+function gSen(en,pos){
+  if(CUST[en]) return CUST[en];
+  if(pos==='n') return ["I have a "+en+".","This is my "+en+".","The "+en+" is very big.","I like the "+en+".","Do you have a "+en+"?"];
+  if(pos==='v') return ["I "+en+" every day.","She can "+en+" very well.","Do you "+en+"?","I want to "+en+"."];
+  if(pos==='adj') return ["It is very "+en+".","She is so "+en+"!","This is "+en+".","I am very "+en+" today."];
+  return ["I see a "+en+".","This "+en+" is great!","I like "+en+"."];
+}
+function iSent(){
+  var day=+document.getElementById('d3').value;
+  setLv('lv3',day); sI=0; sBlt=''; sWs=gW(day); sW=sWs[0]; rSnt(); rWL('wl3',day);
+}
+function rSnt(){
+  sW=sWs[sI]; if(!sW) return;
+  document.getElementById('sw').textContent='"'+sW.en+'"';
+  document.getElementById('sm').textContent='('+sW.ko+')';
+  sBlt=''; document.getElementById('sar').textContent='여기에 문장을 입력하세요...';
+  document.getElementById('pb3').style.width=Math.round(sI/10*100)+'%';
+  document.getElementById('pt3').textContent=(sI+1)+' / 10 단어';
+  var ss=gSen(sW.en,sW.pos);
+  var b=document.getElementById('srec'); b.innerHTML='';
+  ss.forEach(function(s,i){
+    var card=document.createElement('div');
+    card.style.cssText='background:#f8fafc;border-radius:12px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;border:2px solid transparent;cursor:pointer;transition:border .15s;';
+    var left=document.createElement('div'); left.style.flex='1';
+    var sent=document.createElement('div'); sent.style.cssText='font-size:1rem;font-weight:800;color:#4361ee;'; sent.textContent=s;
+    var lbl=document.createElement('div'); lbl.style.cssText='font-size:.72rem;color:#6b7280;margin-top:2px;'; lbl.textContent='문장 '+(i+1);
+    left.appendChild(sent); left.appendChild(lbl);
+    var right=document.createElement('div'); right.style.cssText='display:flex;gap:5px;flex-shrink:0;';
+    [['🔊',1],['🐢',0.6]].forEach(function(pair){
+      var btn=document.createElement('button'); btn.className='btn btn-l'; btn.style.cssText='font-size:.72rem;padding:4px 8px;'; btn.textContent=pair[0];
+      (function(st,rt){ btn.onclick=function(e){ e.stopPropagation(); tts(st,rt); }; })(s,pair[1]);
+      right.appendChild(btn);
+    });
+    var useBtn=document.createElement('button'); useBtn.className='btn btn-ok'; useBtn.style.cssText='font-size:.72rem;padding:4px 8px;'; useBtn.textContent='✏️';
+    (function(st){ useBtn.onclick=function(e){ e.stopPropagation(); sBlt=st; document.getElementById('sar').textContent=st; }; })(s);
+    right.appendChild(useBtn);
+    card.appendChild(left); card.appendChild(right);
+    (function(st){ card.onclick=function(){ tts(st,1); }; card.onmouseenter=function(){ card.style.borderColor='#4361ee'; }; card.onmouseleave=function(){ card.style.borderColor='transparent'; }; })(s);
+    b.appendChild(card);
+  });
+}
+function nxSnt(){
+  if(sI<9){ sI++; rSnt(); }
+  else{ document.getElementById('sw').textContent='🎉 완료!'; document.getElementById('sm').textContent='수고했어요!'; document.getElementById('pb3').style.width='100%'; document.getElementById('srec').innerHTML='<div style="text-align:center;padding:20px;font-size:1.5rem;">🎉 젤리 파이팅!</div>'; }
+}
+
+// ── 영상 ────────────────────────────────────────
+var curVid='';
+function iVid(){
+  var day=+document.getElementById('d4').value;
+  setLv('lv4',day);
+  document.getElementById('vtit').textContent='DAY '+day+' 추천 영상';
+  document.getElementById('vplr').style.display='none';
+  var ws=gW(day), vw=document.getElementById('vwds'); vw.innerHTML='';
+  ws.forEach(function(w){
+    var s=document.createElement('span');
+    s.style.cssText='background:#dbeafe;color:#1e3a8a;border-radius:999px;padding:3px 10px;font-size:.78rem;font-weight:700;cursor:pointer;';
+    s.textContent=w.en+' ('+w.ko+')';
+    (function(en){ s.onclick=function(){ tts(en,1); }; })(w.en);
+    vw.appendChild(s);
+  });
+  var dk=String(day), vs=DAY_VIDEOS[dk];
+  if(!vs){ var g=DV_RANGE.find(function(x){ return day>=x.r[0]&&day<=x.r[1]; }); vs=g?g.ids.map(function(id){ var m=VM[id]||{}; return {id:id,title:m.t||id,desc:'DAY '+day+' 연계 영상',time:m.tm||''}; }):[];}
+  var gr=document.getElementById('vgrd'); gr.innerHTML='';
+  vs.forEach(function(v){
+    var m=VM[v.id]||{};
+    var card=document.createElement('div'); card.className='vc';
+    var thumb=document.createElement('div'); thumb.className='vt';
+    var img=document.createElement('img'); img.src='https://img.youtube.com/vi/'+v.id+'/mqdefault.jpg'; img.alt=''; img.onerror=function(){ this.style.display='none'; }; img.style.cssText='width:100%;height:100%;object-fit:cover;';
+    var ov=document.createElement('div'); ov.className='vt-ov'; ov.textContent='▶';
+    thumb.appendChild(img); thumb.appendChild(ov);
+    var info=document.createElement('div'); info.className='vi';
+    var title=document.createElement('div'); title.className='vi-title'; title.textContent=v.title||m.t||v.id;
+    var meta=document.createElement('div'); meta.className='vi-meta';
+    var badge=document.createElement('span'); badge.className='vbadge'; badge.style.background=m.c||'#4361ee'; badge.textContent=m.lv||'';
+    var time=document.createElement('span'); time.className='vtime'; time.textContent='⏱ '+(v.time||m.tm||'');
+    var desc=document.createElement('div'); desc.style.cssText='font-size:.75rem;color:#6b7280;margin-top:4px;font-family:Noto Sans KR,sans-serif;line-height:1.4;'; desc.textContent=v.desc||m.d||'';
+    meta.appendChild(badge); meta.appendChild(time);
+    info.appendChild(title); info.appendChild(meta); info.appendChild(desc);
+    card.appendChild(thumb); card.appendChild(info);
+    (function(vid,ttl){ card.onclick=function(){ curVid=vid; document.getElementById('vplr').style.display='block'; document.getElementById('vptit').textContent=ttl; document.getElementById('vpimg').src='https://img.youtube.com/vi/'+vid+'/mqdefault.jpg'; document.getElementById('vplr').scrollIntoView({behavior:'smooth',block:'start'}); }; })(v.id, v.title||m.t||v.id);
+    gr.appendChild(card);
+  });
+}
+
+// ── 마이크 ──────────────────────────────────────
+var aRec=null, aType='';
+// ── 쉐도잉 채점 ─────────────────────────────────
+function scoreShadow(correct, said){
+  // 단어 단위로 비교 (소문자, 구두점 제거)
+  function clean(s){ return s.toLowerCase().replace(/[.,!?]/g,'').trim(); }
+  var cWords = clean(correct).split(' ');
+  var sWords = clean(said).split(' ');
+  var matched = 0;
+  cWords.forEach(function(w){
+    if(sWords.indexOf(w) !== -1) matched++;
+  });
+  var pct = Math.round(matched / cWords.length * 100);
+
+  // 정답 단어 색상 표시
+  var html = cWords.map(function(w){
+    var hit = sWords.indexOf(w) !== -1;
+    return '<span style="color:'+(hit?'#166534':'#991b1b')+';background:'+(hit?'#dcfce7':'#fee2e2')+';border-radius:4px;padding:1px 5px;margin:2px;display:inline-block;">'+ w +'</span>';
+  }).join(' ');
+
+  // 점수별 메시지
+  var msg, color;
+  if(pct===100){ msg='🌟 완벽해요!'; color='#166534'; }
+  else if(pct>=80){ msg='👍 잘했어요!'; color='#0369a1'; }
+  else if(pct>=50){ msg='🙂 조금 더 연습해봐요!'; color='#854d0e'; }
+  else{ msg='💪 다시 도전!'; color='#991b1b'; }
+
+  document.getElementById('shdResult').style.display='block';
+  document.getElementById('shdScore').textContent=pct+'%  '+msg;
+  document.getElementById('shdScore').style.color=color;
+  document.getElementById('shdCorrect').innerHTML=html;
+  document.getElementById('shdSaid').textContent='"'+said+'"';
+  document.getElementById('shdPb').style.width=pct+'%';
+  document.getElementById('shdPb').style.background=pct>=80?'#06d6a0':pct>=50?'#f59e0b':'#f72585';
+
+  // ICR 연동: 50% 미만이면 취약단어 등록
+  if(shWs[shI] && pct < 50){
+    rec(shWs[shI].en, false);
+  } else if(shWs[shI] && pct === 100){
+    rec(shWs[shI].en, true);
+  }
+}
+
+function showMicTip(){
+  var el=document.getElementById('micTip');
+  if(!el){
+    el=document.createElement('div'); el.id='micTip';
+    el.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1a1a2e;color:#fff;border-radius:14px;padding:12px 20px;font-size:.82rem;font-family:Noto Sans KR,sans-serif;line-height:1.8;z-index:9999;max-width:300px;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,.35);';
+    document.body.appendChild(el);
+  }
+  el.innerHTML='🎤 마이크 사용 안내<br><strong>Chrome 앱</strong>에서 열어주세요<br><small style="opacity:.75">주소창 왼쪽 🔒 → 마이크 → 허용</small>';
+  el.style.display='block';
+  setTimeout(function(){ el.style.display='none'; },4000);
+}
+
+function mic(btnId, type){
+  var btn=document.getElementById(btnId);
+  if(aType===type&&aRec){
+    aRec.stop(); aRec=null; aType='';
+    btn.textContent=type==='shd'?'🎤 따라 말하기':'🎤 말해보기';
+    btn.classList.remove('mic-on'); return;
+  }
+  if(type==='shd') document.getElementById('shdResult').style.display='none';
+
+  if(!('webkitSpeechRecognition' in window||'SpeechRecognition' in window)){
+    if(type==='shd'){ tts(document.getElementById('ss').textContent,0.8); }
+    else{ tts((sW&&sW.en)||'',0.8); }
+    showMicTip(); return;
+  }
+  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  var r=new SR(); r.lang='en-US'; r.continuous=false; r.interimResults=false;
+  aRec=r; aType=type; btn.classList.add('mic-on'); btn.textContent='🛑 중지';
+
+  r.onresult=function(e){
+    var said=e.results[0][0].transcript;
+    if(type==='snt'){
+      sBlt=said; document.getElementById('sar').textContent=said;
+      btn.textContent='🎤 말해보기'; btn.classList.remove('mic-on');
+    } else {
+      var correct=document.getElementById('ss').textContent;
+      btn.textContent='🎤 따라 말하기'; btn.classList.remove('mic-on');
+      scoreShadow(correct, said);
+    }
+    aRec=null; aType='';
+  };
+  r.onerror=function(e){
+    btn.textContent=type==='shd'?'🎤 따라 말하기':'🎤 말해보기';
+    btn.classList.remove('mic-on'); aRec=null; aType='';
+    if(e.error==='not-allowed'||e.error==='permission-denied') showMicTip();
+  };
+  r.onend=function(){
+    if(aType===type){
+      btn.textContent=type==='shd'?'🎤 따라 말하기':'🎤 말해보기';
+      btn.classList.remove('mic-on'); aRec=null; aType='';
+    }
+  };
+  try{ r.start(); } catch(e){
+    btn.textContent=type==='shd'?'🎤 따라 말하기':'🎤 말해보기';
+    btn.classList.remove('mic-on'); aRec=null; aType='';
+    showMicTip();
+  }
+}
+
+// ── 초기화 ──────────────────────────────────────
+(function init(){
+  ['d0','d1','d2','d3','d4'].forEach(fillSel);
+  iListen();
+  iShadow();
+  iQuiz();
+  iSent();
+  iVid();
+})();
+
+</script>
+
+<div id="installBanner" style="display:none;position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,#4361ee,#06d6a0);color:#fff;padding:14px 20px;z-index:10000;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 -4px 20px rgba(0,0,0,.2);">
+  <div>
+    <div style="font-weight:800;font-size:.9rem;">📱 홈화면에 설치하기</div>
+    <div style="font-size:.75rem;opacity:.9;margin-top:2px;">앱처럼 바로 실행할 수 있어요!</div>
+  </div>
+  <div style="display:flex;gap:8px;">
+    <button onclick="installApp()" style="border:none;background:#fff;color:#4361ee;border-radius:999px;padding:8px 18px;font-weight:800;font-size:.85rem;cursor:pointer;font-family:inherit;">설치</button>
+    <button onclick="document.getElementById('installBanner').style.display='none'" style="border:2px solid rgba(255,255,255,.5);background:transparent;color:#fff;border-radius:999px;padding:8px 14px;font-weight:700;font-size:.85rem;cursor:pointer;font-family:inherit;">닫기</button>
+  </div>
+</div>
+
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('/sw.js').then(function(){
+      console.log('SW registered');
+    });
+  });
+}
+
+// 홈화면 추가 배너
+var deferredPrompt;
+window.addEventListener('beforeinstallprompt', function(e){
+  e.preventDefault();
+  deferredPrompt = e;
+  var banner = document.getElementById('installBanner');
+  if(banner) banner.style.display = 'flex';
+});
+
+function installApp(){
+  if(deferredPrompt){
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(function(){ deferredPrompt=null; document.getElementById('installBanner').style.display='none'; });
+  }
+}
+
+window.addEventListener('appinstalled', function(){
+  var banner = document.getElementById('installBanner');
+  if(banner) banner.style.display='none';
+});
+</script>
+</body>
+</html>
